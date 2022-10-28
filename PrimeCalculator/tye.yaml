@@ -1,0 +1,81 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: microservicesapp
+
+services:
+- name: primecalculator
+  tags:
+    - be
+  project: primecalculator/primecalculator.csproj
+  replicas: 3
+  env:
+  - RABBIT_USER=guest
+  - RABBIT_PSWD=guest
+  - RABBIT_QUEUE=primes
+
+- name: primeclienta
+  tags:
+    - cl
+  project: primeclientdotnet/primeclient.csproj
+  replicas: 2
+  env:
+  - MIN_NUMBER=1
+  - MAX_NUMBER=1000000
+  - INTERVAL_MS=500
+
+- name: primeclientb
+  tags:
+    - cl
+  project: primeclientdotnet/primeclient.csproj
+  replicas: 1
+  env:
+  - MIN_NUMBER=1
+  - MAX_NUMBER=1000000
+  - INTERVAL_MS=200
+
+- name: primeclientc
+  tags:
+    - cl
+    - clgo
+  executable: go
+  args: run .
+  workingDirectory: primeclientgo
+  env:
+  - MIN_NUMBER=1
+  - MAX_NUMBER=200
+  - INTERVAL_MS=1000
+
+- name: primeqconsumer
+  tags:
+    - mw
+  project: primeqconsumer/primeqconsumer.csproj
+  replicas: 1
+
+- name: redis
+  tags:
+    - be
+  image: redis
+  bindings:
+  - port: 6379
+    connectionString: "${host}:${port}"
+
+- name: redis-cli
+  tags:
+    - be
+  image: redis
+  args: "redis-cli -h redis MONITOR"
+  
+- name: rabbitmq
+  tags:
+    - mw
+  image: rabbitmq:3-management
+  bindings:
+  - name: mq_binding
+    port: 5672
+    protocol: rabbitmq
+  - name: mui_binding
+    port: 15672
