@@ -1,0 +1,29 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+  zipkin:
+
+exporters:
+  logging:
+    loglevel: debug
+  otlp:
+   endpoint: tempo-eu-west-0.grafana.net:443
+   headers:
+     authorization: Basic 
+
+processors:
+  batch:
+
+extensions:
+  health_check:
+  pprof:
+  zpages:
+
+service:
+  extensions: [pprof, zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [zipkin]
+      processors: [batch]
+      exporters: [logging, otlp]
