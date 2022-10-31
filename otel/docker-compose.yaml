@@ -13,3 +13,4 @@ services:
         - "13133:13133" # health_check extension
         - "9411:9411"   # Zipkin receiver
         - "55679:55679" # zpages extension
+        - "4318:4318"   # OTLP HTTP (from frontend JS)

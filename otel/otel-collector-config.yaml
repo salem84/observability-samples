@@ -2,6 +2,14 @@ receivers:
   otlp:
     protocols:
       grpc:
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://localhost:8080
+            - http://localhost:8090
+            - http://*
+            
   zipkin:
 
 exporters:
@@ -22,8 +30,11 @@ extensions:
 
 service:
   extensions: [pprof, zpages, health_check]
+  telemetry:
+    logs:
+      level: "debug"
   pipelines:
     traces:
-      receivers: [zipkin]
+      receivers: [zipkin, otlp]
       processors: [batch]
       exporters: [logging, otlp]
