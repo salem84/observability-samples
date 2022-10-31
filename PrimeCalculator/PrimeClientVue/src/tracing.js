@@ -1,8 +1,9 @@
 import { context, trace, SpanStatusCode } from "@opentelemetry/api";
 import { WebTracerProvider } from "@opentelemetry/sdk-trace-web";
 import { Resource } from "@opentelemetry/resources";
-import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { CollectorTraceExporter } from "@opentelemetry/exporter-collector";
+import { ConsoleSpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+// import { CollectorTraceExporter } from "@opentelemetry/exporter-collector";
 import { ZoneContextManager } from "@opentelemetry/context-zone";
 import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
@@ -12,52 +13,57 @@ const serviceName = "link-frontend";
 const resource = new Resource({ "service.name": serviceName });
 const provider = new WebTracerProvider({ resource });
 
-const collector = new CollectorTraceExporter({
-    url: "http://localhost:4318/v1/traces",
-});
+// const collector = new CollectorTraceExporter({
+//     url: "http://localhost:4318/v1/traces",
+// });
 
-provider.addSpanProcessor(new SimpleSpanProcessor(collector));
-provider.register({ contextManager: new ZoneContextManager() });
+// provider.addSpanProcessor(new SimpleSpanProcessor(collector));
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.addSpanProcessor(new SimpleSpanProcessor(new OTLPTraceExporter()));
+
+provider.register({ 
+    contextManager: new ZoneContextManager() 
+});
 
 const webTracerWithZone = provider.getTracer(serviceName);
 
 var bindingSpan;
 
-window.startBindingSpan = (
-    traceId,
-    spanId,
-    traceFlags,
-) => {
-    bindingSpan = webTracerWithZone.startSpan("");
-    bindingSpan.spanContext().traceId = traceId;
-    bindingSpan.spanContext().spanId = spanId;
-    bindingSpan.spanContext().traceFlags = traceFlags;
-};
+// window.startBindingSpan = (
+//     traceId,
+//     spanId,
+//     traceFlags,
+// ) => {
+//     bindingSpan = webTracerWithZone.startSpan("");
+//     bindingSpan.spanContext().traceId = traceId;
+//     bindingSpan.spanContext().spanId = spanId;
+//     bindingSpan.spanContext().traceFlags = traceFlags;
+// };
 
 registerInstrumentations({
     instrumentations: [
         new FetchInstrumentation({
             propagateTraceHeaderCorsUrls: ["/.*/g"],
             clearTimingResources: true,
-            applyCustomAttributesOnSpan: (
-                span,
-                request,
-                result,
-            ) => {
-                const attributes = span.attributes;
-                if (attributes.component === "fetch") {
-                    span.updateName(
-                        `${attributes["http.method"]} ${attributes["http.url"]}`
-                    );
-                }
-                if (result instanceof Error) {
-                    span.setStatus({
-                        code: SpanStatusCode.ERROR,
-                        message: result.message,
-                    });
-                    span.recordException(result.stack || result.name);
-                }
-            },
+            // applyCustomAttributesOnSpan: (
+            //     span,
+            //     request,
+            //     result,
+            // ) => {
+            //     const attributes = span.attributes;
+            //     if (attributes.component === "fetch") {
+            //         span.updateName(
+            //             `${attributes["http.method"]} ${attributes["http.url"]}`
+            //         );
+            //     }
+            //     if (result instanceof Error) {
+            //         span.setStatus({
+            //             code: SpanStatusCode.ERROR,
+            //             message: result.message,
+            //         });
+            //         span.recordException(result.stack || result.name);
+            //     }
+            // },
         }),
     ],
 });
