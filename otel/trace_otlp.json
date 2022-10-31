@@ -1,0 +1,49 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": { "stringValue": "link-frontend" }
+          },
+          {
+            "key": "telemetry.sdk.language",
+            "value": { "stringValue": "webjs" }
+          },
+          {
+            "key": "telemetry.sdk.name",
+            "value": { "stringValue": "opentelemetry" }
+          },
+          {
+            "key": "telemetry.sdk.version",
+            "value": { "stringValue": "1.7.0" }
+          }
+        ],
+        "droppedAttributesCount": 0
+      },
+      "instrumentationLibrarySpans": [
+        {
+          "spans": [
+            {
+              "traceId": "cfa50838b8e7c0ddb2cc560fdaa9aca3",
+              "spanId": "1f3ff6513c0f24a3",
+              "name": "checkNumber",
+              "kind": 1,
+              "startTimeUnixNano": 1667225969857000200,
+              "endTimeUnixNano": 1667225969857100000,
+              "attributes": [],
+              "droppedAttributesCount": 0,
+              "events": [],
+              "droppedEventsCount": 0,
+              "status": { "code": 0 },
+              "links": [],
+              "droppedLinksCount": 0
+            }
+          ],
+          "instrumentationLibrary": { "name": "link-frontend" }
+        }
+      ]
+    }
+  ]
+}
