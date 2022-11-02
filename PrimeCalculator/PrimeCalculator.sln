@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeClientDotNet", "PrimeClientDotNet\PrimeClientDotNet.csproj", "{D4590A00-0710-4A7B-B642-CF017993D047}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeConsumer", "PrimeConsumer\PrimeConsumer.csproj", "{9E9CE8D2-819D-4A51-AA39-493F63F1A6FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeConsumerDotNetCore", "PrimeConsumerDotNetCore\PrimeConsumerDotNetCore.csproj", "{9E9CE8D2-819D-4A51-AA39-493F63F1A6FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeService", "PrimeService\PrimeService.csproj", "{F6F053A1-D755-4FDC-838F-D501E5EBC0EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeConsumerDotNetFullFramework", "PrimeConsumerDotNetFullFramework\PrimeConsumerDotNetFullFramework.csproj", "{2F261E58-845F-4D73-9840-047354E26372}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,10 @@ Global
 		{F6F053A1-D755-4FDC-838F-D501E5EBC0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F053A1-D755-4FDC-838F-D501E5EBC0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6F053A1-D755-4FDC-838F-D501E5EBC0EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F261E58-845F-4D73-9840-047354E26372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F261E58-845F-4D73-9840-047354E26372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F261E58-845F-4D73-9840-047354E26372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F261E58-845F-4D73-9840-047354E26372}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

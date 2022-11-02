@@ -5,8 +5,10 @@ import { ConsoleSpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-tra
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 // import { CollectorTraceExporter } from "@opentelemetry/exporter-collector";
 import { ZoneContextManager } from "@opentelemetry/context-zone";
-import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
+import { XMLHttpRequestInstrumentation } from "@opentelemetry/instrumentation-xml-http-request";
+import { W3CTraceContextPropagator } from "@opentelemetry/core";
 
 const serviceName = "link-frontend";
 
@@ -22,8 +24,11 @@ provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 provider.addSpanProcessor(new SimpleSpanProcessor(new OTLPTraceExporter()));
 
 provider.register({ 
-    contextManager: new ZoneContextManager() 
+    contextManager: new ZoneContextManager(),
+    propagator: new W3CTraceContextPropagator(),
 });
+
+// propagation.setGlobalPropagator(new W3CTraceContextPropagator());
 
 const webTracerWithZone = provider.getTracer(serviceName);
 
@@ -43,7 +48,11 @@ var bindingSpan;
 registerInstrumentations({
     instrumentations: [
         new FetchInstrumentation({
-            propagateTraceHeaderCorsUrls: ["/.*/g"],
+            propagateTraceHeaderCorsUrls: [
+                'https://cors-test.appspot.com/test',
+                'https://httpbin.org/get',
+                "/.*/g"
+            ],
             clearTimingResources: true,
             // applyCustomAttributesOnSpan: (
             //     span,
@@ -65,6 +74,13 @@ registerInstrumentations({
             //     }
             // },
         }),
+        //For Axios Library Instrumentation
+        new XMLHttpRequestInstrumentation({
+            ignoreUrls: [/localhost:8080\/sockjs-node/],
+            propagateTraceHeaderCorsUrls: [
+              'https://httpbin.org/get',
+            ],
+          }),
     ],
 });
 

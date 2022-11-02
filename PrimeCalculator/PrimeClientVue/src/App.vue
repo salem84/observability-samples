@@ -17,7 +17,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 import { traceSpan } from "./tracing";
 
 export default {
@@ -34,13 +34,13 @@ export default {
   },
   methods: {
     async checkNumber() {
-      // const response = await axios.post("api/todoList/", {
-      //   title: this.num,
-      //   description: this.description
-      // });
+      const response = await axios.get("https://httpbin.org/get", {
+
+      });
       // this.todos.push(response.data);
       // this.title = "";
       // this.description = "";
+      console.log(response.status);
       this.showResult = true;
       this.isPrime = false;
     },
@@ -48,7 +48,8 @@ export default {
     async handleCheck(e){
       e.preventDefault();
       if(this.num) {
-        await traceSpan("checkNumber", this.checkNumber);
+        //await traceSpan("checkNumber", this.checkNumber);
+        await this.checkNumber();
       }
     },
    
