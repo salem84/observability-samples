@@ -22,16 +22,17 @@
         ],
         "droppedAttributesCount": 0
       },
-      "instrumentationLibrarySpans": [
+      "scopeSpans": [
         {
+          "scope": { "name": "link-frontend" },
           "spans": [
             {
-              "traceId": "cfa50838b8e7c0ddb2cc560fdaa9aca3",
-              "spanId": "1f3ff6513c0f24a3",
+              "traceId": "1396ca3db1ac72b4969d41792aa33766",
+              "spanId": "86738ed57406956f",
               "name": "checkNumber",
               "kind": 1,
-              "startTimeUnixNano": 1667225969857000200,
-              "endTimeUnixNano": 1667225969857100000,
+              "startTimeUnixNano": 1667240875565999900,
+              "endTimeUnixNano": 1667240875567500000,
               "attributes": [],
               "droppedAttributesCount": 0,
               "events": [],
@@ -40,8 +41,7 @@
               "links": [],
               "droppedLinksCount": 0
             }
-          ],
-          "instrumentationLibrary": { "name": "link-frontend" }
+          ]
         }
       ]
     }
